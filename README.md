@@ -1,6 +1,6 @@
 # Spacey
 This is my first Pygame and the first time I am using Github.
-It's a simple game where you are controlling a ship in space and have to dodge meteors while blasting enemies. After the bossfight you have succesfully completed the game!
+It's a simple game where you are controlling a ship in space and have to dodge meteors while blasting enemies. After the bossfight you have succesfully completed the game! Any tips on the code, game mecahnics or usage of git are welcome!
 
 Menu buttons work with mouseclicks, the rest of the game is played with the keyboard.
 
