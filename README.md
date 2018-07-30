@@ -4,5 +4,4 @@ It's a simple game where you are controlling a ship in space and have to dodge m
 
 Menu buttons work with mouseclicks, the rest of the game is played with the keyboard.
 
-If controlling the ship doesn't work (such as on my mac), try: pythonw MyFirstGame.py
-
+If controlling the ship doesn't work (such as on my mac), try: 'pythonw MyFirstGame.py' instead of 'python MyFirstGame.py'
