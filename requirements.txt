@@ -1,0 +1,4 @@
+# These libraries are needed to run Spacey
+# Have not tested earlier versions but those should work too!
+pygame>=1.9.3
+numpy>=1.14.3
