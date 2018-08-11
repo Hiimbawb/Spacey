@@ -3,6 +3,27 @@ import random
 import numpy as np
 
 
+class Background_scroll(pygame.sprite.Sprite):
+    def __init__(self, background_image):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = background_image
+        self.n_pixel_roll = 2 # Number of rows to roll from bottom to top
+        self.update_speed = 2 # Roll ever n frames
+
+        gameDisplay.blit(self.image, (0,0))
+
+    def update(self):
+        if frame_count % self.update_speed == 0:
+            # Convert surface to numpy array
+            imgarr = pygame.surfarray.array3d(self.image)
+            # Roll the image array
+            imgarr = np.roll(imgarr, self.n_pixel_roll, axis=1)
+            # Convert numpy array back to pygame surface
+            self.image  = pygame.pixelcopy.make_surface(imgarr)
+
+        gameDisplay.blit(self.image, (0,0))
+
+
 class Explosion(pygame.sprite.Sprite):
     def __init__(self, frames, xcoord, ycoord, scale=1.5, update_n=1):
         pygame.sprite.Sprite.__init__(self)  # call Sprite initializer
@@ -15,6 +36,7 @@ class Explosion(pygame.sprite.Sprite):
         self.scale = scale
         self.update_n = update_n
         self.update_counter = self.update_n
+
 
     def update(self):
         self.update_counter -= 1
@@ -417,7 +439,7 @@ def main_menu():
                     quit()
 
         # Update main menu
-        gameDisplay.blit(background, (0, 0))
+        gameDisplay.blit(background_img, (0, 0))
         startbutton = gameDisplay.blit(start_button, (button_x_center, display_height * 0.4))
         creditbutton = gameDisplay.blit(credit_button, (button_x_center, display_height * 0.5))
         quitbutton = gameDisplay.blit(quit_button, (button_x_center, display_height * 0.6))
@@ -442,6 +464,11 @@ def credit_loop():
 
 
 def game_loop():
+
+    # Instantiate background
+    global background_img, frame_count
+    frame_count = 0
+    background = Background_scroll(background_img)
 
     # Instantiate Ship & Meteor and create a group for lasersprites
     global ship, ship_group, meteors, lasers, score_count, enemies, fps, timer, enemy_lasers, score_count
@@ -568,7 +595,7 @@ def game_loop():
                 continue
 
         # Update display and sprites
-        gameDisplay.blit(background, (0, 0))
+        background.update()    
         ship.update()
 
         if len(meteors) < 1 and enemies_meteors_spawning:
@@ -702,6 +729,10 @@ def game_loop():
         # Set FPS
         clock.tick(fps)
 
+        #frame counter
+        frame_count += 1
+
+
 
 # Here we initialize pygame, set variables and start the actual game
 pygame.init()
@@ -780,7 +811,7 @@ spritesheetspace2 = pygame.image.load('Textures/spritesheet_space2.png')
 missile = spritesheetspace2.subsurface(pygame.Rect(1093, 711, 19, 40))
 boss_image = spritesheetspace2.subsurface(pygame.Rect(276, 0, 172, 151))
 controlscheme = pygame.image.load('Textures/controlscheme.png')
-background = pygame.image.load('Textures/space_background.png').convert()
+background_img = pygame.image.load('Textures/space_background.png').convert()
 credit_background = pygame.image.load('Textures/credits.png').convert()
 
 # Load files used in the game
